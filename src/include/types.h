@@ -1,6 +1,8 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+#include "packetsource.h"
+
 typedef struct {
     int n;
     int T;
@@ -8,6 +10,13 @@ typedef struct {
     int trial_num;
     int numSources;
 } cmd_line_args_t;
+
+typedef struct _queue {
+    volatile int head;
+    volatile int tail;
+    Packet_t** packet_array;
+    int depth;
+} queue_t;
 
 /* Return codes for queue operations */
 #define SUCCESS 0

@@ -13,7 +13,7 @@ void create_output(int program_type, long* checksums_array, cmd_line_args_t* arg
     if (program_type == SERIAL) {
         strncat(output_filename, "serial_output_", MAX_STRING_LENGTH);
     } else if (program_type == PARALLEL) {
-        strncat(output_filename, "parllel_output_", MAX_STRING_LENGTH);
+        strncat(output_filename, "parallel_output_", MAX_STRING_LENGTH);
     } else if (program_type == SERIAL_QUEUE) {
         strncat(output_filename, "serialqueue_output_", MAX_STRING_LENGTH);
     }
