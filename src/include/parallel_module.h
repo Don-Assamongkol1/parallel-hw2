@@ -1,2 +1,6 @@
+#include "fingerprint.h"
+#include "pthread.h"
+#include "queue.h"
 #include "types.h"
-void run_parallel(PacketSource_t* packetSource, long* checksums_array, cmd_line_args_t* args);
+
+int run_parallel(PacketSource_t* packetSource, long* checksums_array, cmd_line_args_t* args);

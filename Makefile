@@ -1,11 +1,11 @@
-CFLAGS = -O3 -Wall -I src/include -pthread 
+CFLAGS = -O3 -Wall -Werror -I src/include -pthread 
 SRCS_SERIAL = src/utils/* src/serial/* src/output/*
 SRCS_PARALLEL = src/utils/* src/parallel/* src/output/* src/queue/*
 
-serial: $(SRCS) ./src/include ./src/serial
+serial: $(SRCS) ./src/include/* ./src/serial/*
 	gcc $(CFLAGS) -o serial $(SRCS_SERIAL)
 
-parallel: $(SRCS) ./src/include ./src/parallel
+parallel: $(SRCS) ./src/include/* ./src/parallel/* ./src/queue/*
 	gcc $(CFLAGS) -o parallel $(SRCS_PARALLEL)
 
 clean:

@@ -9,17 +9,20 @@ queue_t* create_queue() {
     // create an array of (packet pointers) of depth D
     queue->packet_array = malloc(sizeof(Packet_t*) * DEPTH);
     queue->depth = DEPTH;
+
+    return queue;
 }
 
-int enqueue(queue_t* queue, Packet_t* packet) {
+int enqueue(queue_t* queue, volatile Packet_t* packet) {
     if ((queue->tail - queue->head) == queue->depth) {
         return FAILURE;
     }
     queue->packet_array[queue->tail % queue->depth] = packet;
     queue->tail += 1;
+    return SUCCESS;
 }
 
-int dequeue(queue_t* queue, Packet_t* packet) {
+int dequeue(queue_t* queue, volatile Packet_t* packet) {
     if ((queue->tail - queue->head) == 0) {
         return FAILURE;
     }

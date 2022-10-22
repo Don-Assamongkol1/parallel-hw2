@@ -1,6 +1,8 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+#include <stdbool.h>
+
 #include "packetsource.h"
 
 typedef struct {
@@ -14,7 +16,7 @@ typedef struct {
 typedef struct _queue {
     volatile int head;
     volatile int tail;
-    Packet_t** packet_array;
+    volatile Packet_t** packet_array;
     int depth;
 } queue_t;
 
