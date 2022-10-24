@@ -1,5 +1,7 @@
 #include "parallel_module.h"
 
+#include <unistd.h>
+
 typedef struct _thread_args_t {
     int thread_idx;  // idx of the queue it should consume from + idx of where it adds checksum to
     long* checksums_array;
@@ -9,23 +11,25 @@ typedef struct _thread_args_t {
 
 void* thr_func(void* input) {
     printf("hello world from thread\n ");
+    sleep(5);
+
     /* typecast arguments */
     thread_args_t* thr_args = (thread_args_t*)input;
     int thread_idx = thr_args->thread_idx;
+    queue_t* thread_queue = thr_args->queues[thread_idx];
 
-    /* Have worker keep on working */
+    /* Have worker process its queue while packets remain on them */
     int numPacketsProcessed = 0;
     while (numPacketsProcessed < thr_args->T) {
         volatile Packet_t* packet = malloc(sizeof(volatile Packet_t));
 
         while (true) {
-            if (dequeue(thr_args->queues[thread_idx], packet) == SUCCESS) {
+            if (dequeue(thread_queue, packet) == SUCCESS) {
                 break;
             }
         };
 
         thr_args->checksums_array[thread_idx] += getFingerprint(packet->iterations, packet->seed);
-        printf("did a computation\n");
         numPacketsProcessed += 1;
     }
 
@@ -33,8 +37,6 @@ void* thr_func(void* input) {
 }
 
 int run_parallel(PacketSource_t* packetSource, long* checksums_array, cmd_line_args_t* args) {
-    printf("checksums_array[0]: %ld\n", checksums_array[0]);
-
     /* Create numSources many queues */
     queue_t* queues[args->numSources];
     for (int i = 0; i < args->numSources; i++) {
@@ -58,7 +60,7 @@ int run_parallel(PacketSource_t* packetSource, long* checksums_array, cmd_line_a
         }
     }
 
-    // Have dispatcher go through and assign work
+    // Have dispatcher go through and put packets onto the queue
     for (int packetIndex = 0; packetIndex < args->T; packetIndex++) {
         for (int sourceNum = 0; sourceNum < args->numSources; sourceNum++) {
             volatile Packet_t* packet = getUniformPacket(packetSource, sourceNum);
@@ -70,8 +72,6 @@ int run_parallel(PacketSource_t* packetSource, long* checksums_array, cmd_line_a
             };
         }
     }
-
-    printf("checksums_array[0]: %ld\n", checksums_array[0]);
 
     /* Join our threads */
     for (int i = 0; i < numThreads; i++) {

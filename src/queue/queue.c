@@ -7,8 +7,10 @@ queue_t* create_queue() {
     queue->tail = 0;
 
     // create an array of (packet pointers) of depth D
-    queue->packet_array = malloc(sizeof(Packet_t*) * DEPTH);
     queue->depth = DEPTH;
+    queue->packet_array = malloc(sizeof(Packet_t*) * DEPTH);
+    // the Packet_t*'s we get from getUniformPacket already point to a
+    // heap-allocated (malloc'd) memory address
 
     return queue;
 }
@@ -26,7 +28,7 @@ int dequeue(queue_t* queue, volatile Packet_t* packet) {
     if ((queue->tail - queue->head) == 0) {
         return FAILURE;
     }
-    packet = queue->packet_array[queue->head % queue->depth];
+    *packet = *queue->packet_array[queue->head % queue->depth];
     queue->head += 1;
     return SUCCESS;
 }
