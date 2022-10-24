@@ -8,8 +8,8 @@
 #include "types.h"
 
 int main(int argc, char* argv[]) {
-    if (argc != 5) {
-        printf("Error! Expected 4 arguments: n, T, W trial_num\n");
+    if (argc != 6) {
+        printf("Error! Expected 4 arguments: n, T, W trial_num, distribution type\n");
         return 0;
     }
 
@@ -18,6 +18,7 @@ int main(int argc, char* argv[]) {
     args->T = atoi(argv[2]);                                  // number of packets from each source—(numPackets in the code)
     args->W = atoi(argv[3]);                                  // expected amount of work per packet—(mean in the code).
     args->trial_num = atoi(argv[4]);                          // expected amount of work per packet—(mean in the code).
+    args->distribution = argv[5][0];                          // distribution type either 'C', 'U', 'E'
     args->numSources = args->n - 1;
 
     // create our packet source

@@ -1,7 +1,5 @@
 #include "parallel_module.h"
 
-#include <unistd.h>
-
 typedef struct _thread_args_t {
     int thread_idx;  // idx of the queue it should consume from + idx of where it adds checksum to
     long* checksums_array;
@@ -10,9 +8,6 @@ typedef struct _thread_args_t {
 } thread_args_t;
 
 void* thr_func(void* input) {
-    printf("hello world from thread\n ");
-    sleep(5);
-
     /* typecast arguments */
     thread_args_t* thr_args = (thread_args_t*)input;
     int thread_idx = thr_args->thread_idx;
@@ -24,7 +19,7 @@ void* thr_func(void* input) {
         volatile Packet_t* packet = malloc(sizeof(volatile Packet_t));
 
         while (true) {
-            if (dequeue(thread_queue, packet) == SUCCESS) {
+            if (dequeue(thread_queue, packet, false) == SUCCESS) {
                 break;
             }
         };
@@ -63,10 +58,18 @@ int run_parallel(PacketSource_t* packetSource, long* checksums_array, cmd_line_a
     // Have dispatcher go through and put packets onto the queue
     for (int packetIndex = 0; packetIndex < args->T; packetIndex++) {
         for (int sourceNum = 0; sourceNum < args->numSources; sourceNum++) {
-            volatile Packet_t* packet = getUniformPacket(packetSource, sourceNum);
+            volatile Packet_t* packet = NULL;
+
+            if (args->distribution == 'C') {
+                ;
+            } else if (args->distribution == 'U') {
+                packet = getUniformPacket(packetSource, sourceNum);
+            } else if (args->distribution == 'E') {
+                packet = getExponentialPacket(packetSource, sourceNum);
+            }
 
             while (true) {
-                if (enqueue(queues[sourceNum], packet) == SUCCESS) {
+                if (enqueue(queues[sourceNum], packet, false) == SUCCESS) {
                     break;
                 }
             };

@@ -3,7 +3,7 @@
 
 #include "output_module.h"
 #include "packetsource.h"
-#include "parallel_module.h"
+#include "serial_queue_module.h"
 #include "stopwatch.h"
 #include "types.h"
 
@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
     }
 
     // single-threaded: have our thread grab T packets from each source and compute their checksum
-    run_parallel(packetSource, checksums_array, args);
+    run_serial_queue(packetSource, checksums_array, args);
 
     // write output module
     create_output(PARALLEL, checksums_array, args);

@@ -86,3 +86,9 @@ long getUniformCount(PacketSource_t *packetSource, int sourceNum) {
 long getExponentialCount(PacketSource_t *packetSource, int sourceNum) {
     return packetSource->exponentialCounts[sourceNum];
 }
+
+volatile Packet_t *getConstantPacket(PacketSource_t *packetSource, int sourceNum) {
+    volatile Packet_t *tmp = (volatile Packet_t *)malloc(sizeof(volatile Packet_t));
+
+    return tmp;
+}

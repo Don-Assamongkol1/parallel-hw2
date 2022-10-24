@@ -1,10 +1,5 @@
 #include "output_module.h"
 
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 void create_output(int program_type, long* checksums_array, cmd_line_args_t* args) {
     /* Name the file */
     char buffer[MAX_STRING_LENGTH];  // used to format ints to string
@@ -31,8 +26,16 @@ void create_output(int program_type, long* checksums_array, cmd_line_args_t* arg
     sprintf(buffer, "%d_", args->W);
     strncat(output_filename, buffer, MAX_STRING_LENGTH);
 
-    sprintf(buffer, "%d.txt", args->trial_num);
+    sprintf(buffer, "trial_%d_", args->trial_num);
     strncat(output_filename, buffer, MAX_STRING_LENGTH);
+
+    if (args->distribution == 'C') {
+        strncat(output_filename, "constant.txt", MAX_STRING_LENGTH);
+    } else if (args->distribution == 'U') {
+        strncat(output_filename, "uniform.txt", MAX_STRING_LENGTH);
+    } else if (args->distribution == 'E') {
+        strncat(output_filename, "exponential.txt", MAX_STRING_LENGTH);
+    }
 
     remove(output_filename);
     FILE* output_file = fopen(output_filename, "a");

@@ -2,6 +2,7 @@
 #define TYPES_H
 
 #include <stdbool.h>
+#include <unistd.h>
 
 #include "packetsource.h"
 
@@ -10,6 +11,7 @@ typedef struct {
     int T;
     int W;
     int trial_num;
+    char distribution;
     int numSources;
 } cmd_line_args_t;
 
@@ -19,6 +21,8 @@ typedef struct _queue {
     volatile Packet_t** packet_array;
     int depth;
 } queue_t;
+
+#define DEPTH 32
 
 /* Return codes for queue operations */
 #define SUCCESS 0

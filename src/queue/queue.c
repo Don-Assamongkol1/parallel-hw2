@@ -1,5 +1,4 @@
 #include "queue.h"
-#define DEPTH 32  // a fixed amount for this assignment
 
 queue_t* create_queue() {
     queue_t* queue = malloc(sizeof(queue_t));
@@ -15,7 +14,11 @@ queue_t* create_queue() {
     return queue;
 }
 
-int enqueue(queue_t* queue, volatile Packet_t* packet) {
+int enqueue(queue_t* queue, volatile Packet_t* packet, bool includeSlowDown) {
+    if (includeSlowDown) {
+        sleep(3);
+    }
+
     if ((queue->tail - queue->head) == queue->depth) {
         return FAILURE;
     }
@@ -24,7 +27,10 @@ int enqueue(queue_t* queue, volatile Packet_t* packet) {
     return SUCCESS;
 }
 
-int dequeue(queue_t* queue, volatile Packet_t* packet) {
+int dequeue(queue_t* queue, volatile Packet_t* packet, bool includeSlowDown) {
+    if (includeSlowDown) {
+        sleep(3);
+    }
     if ((queue->tail - queue->head) == 0) {
         return FAILURE;
     }
