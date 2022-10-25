@@ -32,6 +32,9 @@ void* thr_func(void* input) {
 }
 
 int run_parallel(PacketSource_t* packetSource, long* checksums_array, cmd_line_args_t* args) {
+    StopWatch_t* stopwatch = malloc(sizeof(StopWatch_t));
+    startTimer(stopwatch);
+
     /* Create numSources many queues */
     queue_t* queues[args->numSources];
     for (int i = 0; i < args->numSources; i++) {
@@ -88,6 +91,11 @@ int run_parallel(PacketSource_t* packetSource, long* checksums_array, cmd_line_a
     for (int i = 0; i < args->numSources; i++) {
         free(queues[i]);
     }
+
+    stopTimer(stopwatch);
+    double elapsed_time = getElapsedTime(stopwatch);
+    printf("elapsed_time: %f\n", elapsed_time);
+    free(stopwatch);
 
     return EXIT_SUCCESS;
 }

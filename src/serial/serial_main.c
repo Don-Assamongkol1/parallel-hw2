@@ -1,10 +1,8 @@
-#include <stdio.h>
 #include <stdlib.h>
 
 #include "output_module.h"
 #include "packetsource.h"
 #include "serial_module.h"
-#include "stopwatch.h"
 #include "types.h"
 
 int main(int argc, char* argv[]) {
