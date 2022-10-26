@@ -20,11 +20,8 @@ EXPONENTIAL = "E"
 print("compiling the code...")
 os.system("make serial parallel serial_queue")
 
-test_parallel_overhead()
-test_dispatcher_rate()
+# test_parallel_overhead()
+# test_dispatcher_rate()
 test_uniform_load()
-test_exponential_load()
-test_constant_load()
-
-
-print("\n\n\n\n\n\nrunning Speedup with Constant Load...")
+# test_exponential_load()
+# test_constant_load()

@@ -3,18 +3,7 @@ import os
 import filecmp
 import glob
 
-SERIAL_EXECUTABLE = "./serial"
-PARALLEL_EXECUTABLE = "./parallel"
-parallel_EXECUTABLE = "./parallel"
-
-# number of times to repeat each experiment so we get representative data
-CONSTANT_RERUN_COUNT = 1
-UNIFORM_RERUN_COUNT = 5
-EXPONENTIAL_RERUN_COUNT = 12
-
-CONSTANT = "C"
-UNIFORM = "U"
-EXPONENTIAL = "E"
+import constants
 
 
 def test_constant_load():
@@ -35,15 +24,15 @@ def test_constant_load():
             mean_serial_time = 0
             mean_parallel_time = 0
 
-            for _ in range(CONSTANT_RERUN_COUNT):
+            for _ in range(constants.CONSTANT_RERUN_COUNT):
                 rv_serial = subprocess.run(
                     [
-                        SERIAL_EXECUTABLE,
+                        constants.SERIAL_EXECUTABLE,
                         str(n),
                         str(T),
                         str(W),
                         str(trial_num),
-                        CONSTANT,
+                        constants.CONSTANT,
                     ],
                     capture_output=True,
                     text=True,
@@ -53,12 +42,12 @@ def test_constant_load():
 
                 rv_parallel = subprocess.run(
                     [
-                        PARALLEL_EXECUTABLE,
+                        constants.PARALLEL_EXECUTABLE,
                         str(n),
                         str(T),
                         str(W),
                         str(trial_num),
-                        CONSTANT,
+                        constants.CONSTANT,
                     ],
                     capture_output=True,
                     text=True,
@@ -68,14 +57,16 @@ def test_constant_load():
 
                 trial_num += 1
 
-            mean_serial_time /= CONSTANT_RERUN_COUNT
-            mean_parallel_time /= CONSTANT_RERUN_COUNT
+            mean_serial_time /= constants.CONSTANT_RERUN_COUNT
+            mean_parallel_time /= constants.CONSTANT_RERUN_COUNT
             serial_times.append(mean_serial_time)
             parallel_times.append(mean_parallel_time)
 
         print(f"for W={W}:")
 
         ratio = [parallel_times[i] / serial_times[i] for i in range(len(serial_times))]
+        print("parallel_times: ", parallel_times)
+        print("serial_times: ", serial_times)
         print("ratio: ", ratio)
 
     print("testing correctness...")

@@ -3,17 +3,7 @@ import os
 import filecmp
 import glob
 
-SERIAL_EXECUTABLE = "./serial"
-PARALLEL_EXECUTABLE = "./parallel"
-SERIAL_QUEUE_EXECUTABLE = "./serial_queue"
-
-# number of times to repeat each experiment so we get representative data
-UNIFORM_RERUN_COUNT = 5
-EXPONENTIAL_RERUN_COUNT = 12
-
-CONSTANT = "C"
-UNIFORM = "U"
-EXPONENTIAL = "E"
+import constants
 
 
 def test_parallel_overhead():
@@ -33,15 +23,15 @@ def test_parallel_overhead():
             mean_serial_queue_time = 0
 
             trial_num = 0
-            for _ in range(UNIFORM_RERUN_COUNT):
+            for _ in range(constants.UNIFORM_RERUN_COUNT):
                 rv_serial = subprocess.run(
                     [
-                        SERIAL_EXECUTABLE,
+                        constants.SERIAL_EXECUTABLE,
                         str(n),
                         str(T),
                         str(W),
                         str(trial_num),
-                        UNIFORM,
+                        constants.UNIFORM,
                     ],
                     capture_output=True,
                     text=True,
@@ -51,12 +41,12 @@ def test_parallel_overhead():
 
                 rv_serial_queue = subprocess.run(
                     [
-                        SERIAL_QUEUE_EXECUTABLE,
+                        constants.SERIAL_QUEUE_EXECUTABLE,
                         str(n),
                         str(T),
                         str(W),
                         str(trial_num),
-                        UNIFORM,
+                        constants.UNIFORM,
                     ],
                     capture_output=True,
                     text=True,
@@ -66,8 +56,8 @@ def test_parallel_overhead():
 
                 trial_num += 1
 
-            mean_serial_time /= UNIFORM_RERUN_COUNT
-            mean_serial_queue_time /= UNIFORM_RERUN_COUNT
+            mean_serial_time /= constants.UNIFORM_RERUN_COUNT
+            mean_serial_queue_time /= constants.UNIFORM_RERUN_COUNT
             serial_times.append(mean_serial_time)
             serial_queue_times.append(mean_serial_queue_time)
 
@@ -76,6 +66,8 @@ def test_parallel_overhead():
         ratio = [
             serial_queue_times[i] / serial_times[i] for i in range(len(serial_times))
         ]
+        print("serial_queue_times: ", serial_queue_times)
+        print("serial_times: ", serial_times)
         print("ratio: ", ratio)
 
     print("testing correctness...")

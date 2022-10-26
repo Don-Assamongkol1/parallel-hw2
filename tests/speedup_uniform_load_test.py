@@ -3,17 +3,7 @@ import os
 import filecmp
 import glob
 
-SERIAL_EXECUTABLE = "./serial"
-PARALLEL_EXECUTABLE = "./parallel"
-parallel_EXECUTABLE = "./parallel"
-
-# number of times to repeat each experiment so we get representative data
-UNIFORM_RERUN_COUNT = 5
-EXPONENTIAL_RERUN_COUNT = 12
-
-CONSTANT = "C"
-UNIFORM = "U"
-EXPONENTIAL = "E"
+import constants
 
 
 def test_uniform_load():
@@ -34,15 +24,15 @@ def test_uniform_load():
             mean_serial_time = 0
             mean_parallel_time = 0
 
-            for _ in range(UNIFORM_RERUN_COUNT):
+            for _ in range(constants.UNIFORM_RERUN_COUNT):
                 rv_serial = subprocess.run(
                     [
-                        SERIAL_EXECUTABLE,
+                        constants.SERIAL_EXECUTABLE,
                         str(n),
                         str(T),
                         str(W),
                         str(trial_num),
-                        UNIFORM,
+                        constants.UNIFORM,
                     ],
                     capture_output=True,
                     text=True,
@@ -52,12 +42,12 @@ def test_uniform_load():
 
                 rv_parallel = subprocess.run(
                     [
-                        PARALLEL_EXECUTABLE,
+                        constants.PARALLEL_EXECUTABLE,
                         str(n),
                         str(T),
                         str(W),
                         str(trial_num),
-                        UNIFORM,
+                        constants.UNIFORM,
                     ],
                     capture_output=True,
                     text=True,
@@ -67,19 +57,20 @@ def test_uniform_load():
 
                 trial_num += 1
 
-            mean_serial_time /= UNIFORM_RERUN_COUNT
-            mean_parallel_time /= UNIFORM_RERUN_COUNT
+            mean_serial_time /= constants.UNIFORM_RERUN_COUNT
+            mean_parallel_time /= constants.UNIFORM_RERUN_COUNT
             serial_times.append(mean_serial_time)
             parallel_times.append(mean_parallel_time)
 
         print(f"for W={W}:")
 
         ratio = [parallel_times[i] / serial_times[i] for i in range(len(serial_times))]
+        print("parallel_times: ", parallel_times)
+        print("serial_times: ", serial_times)
         print("ratio: ", ratio)
 
-    print("testing correctness...")
-
     # correcntess test here is similar to parallel_overhead_test
+    print("testing correctness...")
     filenames = list(sorted(glob.glob("results/*")))
     for file_idx_one in range(len(filenames) // 2):
         file_idx_two = file_idx_one + len(filenames) // 2
@@ -91,6 +82,7 @@ def test_uniform_load():
             filenames[file_idx_one], filenames[file_idx_two], shallow=False
         ):
             print("Error!")
+
     print("results seem good!")
 
     os.system("rm results/*")

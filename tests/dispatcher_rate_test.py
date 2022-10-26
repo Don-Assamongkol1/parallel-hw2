@@ -3,17 +3,7 @@ import os
 import filecmp
 import glob
 
-SERIAL_EXECUTABLE = "./serial"
-PARALLEL_EXECUTABLE = "./parallel"
-SERIAL_QUEUE_EXECUTABLE = "./serial_queue"
-
-# number of times to repeat each experiment so we get representative data
-UNIFORM_RERUN_COUNT = 5
-EXPONENTIAL_RERUN_COUNT = 12
-
-CONSTANT = "C"
-UNIFORM = "U"
-EXPONENTIAL = "E"
+import constants
 
 
 def test_dispatcher_rate():
@@ -23,35 +13,35 @@ def test_dispatcher_rate():
     n_options = [2, 3, 5, 9, 14, 28]
     parallel_times = []
 
-    trial_num = 0
     for n in n_options:
 
         T = int((2**20) / (n - 1))
 
+        trial_num = 0
         # run serial code too to verify correctness
         subprocess.run(
             [
-                SERIAL_EXECUTABLE,
+                constants.SERIAL_EXECUTABLE,
                 str(n),
                 str(T),
                 str(W),
                 str(trial_num),
-                UNIFORM,
+                constants.UNIFORM,
             ],
             capture_output=True,
             text=True,
         )
 
         mean_parallel_time = 0
-        for _ in range(UNIFORM_RERUN_COUNT):
+        for _ in range(constants.UNIFORM_RERUN_COUNT):
             rv_parallel = subprocess.run(
                 [
-                    PARALLEL_EXECUTABLE,
+                    constants.PARALLEL_EXECUTABLE,
                     str(n),
                     str(T),
                     str(W),
                     str(trial_num),
-                    UNIFORM,
+                    constants.UNIFORM,
                 ],
                 capture_output=True,
                 text=True,
@@ -61,9 +51,10 @@ def test_dispatcher_rate():
 
             trial_num += 1
 
-        mean_parallel_time /= UNIFORM_RERUN_COUNT
+        mean_parallel_time /= constants.UNIFORM_RERUN_COUNT
         parallel_times.append(mean_parallel_time)
 
+    print("parallel_times: ", parallel_times)
     ratio = [(2**20) / parallel_times[i] for i in range(len(parallel_times))]
     print("ratio: ", ratio)
 

@@ -97,6 +97,5 @@ int run_parallel(PacketSource_t* packetSource, long* checksums_array, cmd_line_a
     printf("elapsed_time: %f\n", elapsed_time);
     free(stopwatch);
 
-    printf("elapsed_time: %f\n", 3.0);
     return EXIT_SUCCESS;
 }

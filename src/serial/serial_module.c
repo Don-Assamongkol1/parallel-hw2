@@ -24,6 +24,4 @@ void run_serial(PacketSource_t* packetSource, long* checksums_array, cmd_line_ar
     double elapsed_time = getElapsedTime(stopwatch);
     printf("elapsed_time: %f\n", elapsed_time);
     free(stopwatch);
-
-    printf("elapsed_time: %f\n", 3.0);
 }
