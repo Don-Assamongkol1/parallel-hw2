@@ -27,8 +27,22 @@ def test_dispatcher_rate():
     for n in n_options:
 
         T = int((2**20) / (n - 1))
-        mean_parallel_time = 0
 
+        # run serial code too to verify correctness
+        subprocess.run(
+            [
+                SERIAL_EXECUTABLE,
+                str(n),
+                str(T),
+                str(W),
+                str(trial_num),
+                UNIFORM,
+            ],
+            capture_output=True,
+            text=True,
+        )
+
+        mean_parallel_time = 0
         for _ in range(UNIFORM_RERUN_COUNT):
             rv_parallel = subprocess.run(
                 [
@@ -53,4 +67,33 @@ def test_dispatcher_rate():
     ratio = [(2**20) / parallel_times[i] for i in range(len(parallel_times))]
     print("ratio: ", ratio)
 
+    print("testing correctness...")
+    serial_filenames = list(sorted(glob.glob("results/serial_output*")))
+    for serial_filename in serial_filenames:
+        end_of_string = serial_filename.split("serial_output_")[1]
+        matching_parallel_file = f"results/parallel_output_{end_of_string}"
+
+        print(serial_filename)
+        print(matching_parallel_file)
+        if not filecmp.cmp(serial_filename, matching_parallel_file, shallow=False):
+            print("Error!")
+
+    print("results seem good!")
+
     os.system("rm results/*")
+
+
+"""
+In the end we have a bunch of 
+parallel_output_<params>_trial_X
+...
+parallel_output_<params>_trial_Y
+
+serial_output_<params>_
+serial_output_<params>_
+serial_output_<params>_
+
+We want to match the serial runs against the parallel runs which were run many 
+times. 
+
+"""
