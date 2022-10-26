@@ -20,7 +20,7 @@ void run_serial_queue(PacketSource_t* packetSource, long* checksums_array, cmd_l
                 volatile Packet_t* packet = NULL;
 
                 if (args->distribution == 'C') {
-                    ;
+                    packet = getConstantPacket(packetSource, sourceNum);
                 } else if (args->distribution == 'U') {
                     packet = getUniformPacket(packetSource, sourceNum);
                 } else if (args->distribution == 'E') {

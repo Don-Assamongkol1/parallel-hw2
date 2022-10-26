@@ -9,7 +9,7 @@ void run_serial(PacketSource_t* packetSource, long* checksums_array, cmd_line_ar
             volatile Packet_t* packet = NULL;
 
             if (args->distribution == 'C') {
-                ;
+                packet = getConstantPacket(packetSource, sourceNum);
             } else if (args->distribution == 'U') {
                 packet = getUniformPacket(packetSource, sourceNum);
             } else if (args->distribution == 'E') {

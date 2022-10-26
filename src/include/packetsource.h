@@ -16,6 +16,9 @@ typedef struct {
     ExponentialGenerator_t* exponentialGen;
     UniformGenerator_t* exponentialSeed;
     long* exponentialCounts;
+
+    int counter;
+    int mean;
 } PacketSource_t;
 
 PacketSource_t* createPacketSource(long mean, int numSources, short seed);
@@ -25,6 +28,8 @@ long getUniformCount(PacketSource_t* packetSource, int sourceNum);
 
 volatile Packet_t* getExponentialPacket(PacketSource_t* packetSource, int sourceNum);
 long getExponentialCount(PacketSource_t* packetSource, int sourceNum);
+
+volatile Packet_t* getConstantPacket(PacketSource_t* packetSource, int sourceNum);
 
 void deletePacketSource(PacketSource_t* packetSource);
 

@@ -12,7 +12,8 @@ parallel: $(SRCS) ./src/include/* ./src/parallel/* ./src/queue/*
 serial_queue: $(SRCS) ./src/include/* ./src/serial_queue/* ./src/queue/*
 	gcc $(CFLAGS) -o serial_queue $(SRCS_SERIAL_QUEUE)
 
-
+all:
+	make serial parallel serial_queue
 
 clean:
 	rm serial parallel serial_queue

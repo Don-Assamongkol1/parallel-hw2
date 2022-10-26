@@ -3,6 +3,9 @@
 PacketSource_t *createPacketSource(long mean, int numSources, short seed) {
     PacketSource_t *packetSource = (PacketSource_t *)malloc(sizeof(PacketSource_t));
 
+    packetSource->counter = 0;  // to set as the seed for our constant packets
+    packetSource->mean = mean;
+
     packetSource->uniformGen = (UniformGenerator_t *)malloc(sizeof(UniformGenerator_t) * numSources);
     packetSource->uniformSeed = (UniformGenerator_t *)malloc(sizeof(UniformGenerator_t) * numSources);
     packetSource->uniformCounts = (long *)malloc(sizeof(long) * numSources);
@@ -89,6 +92,10 @@ long getExponentialCount(PacketSource_t *packetSource, int sourceNum) {
 
 volatile Packet_t *getConstantPacket(PacketSource_t *packetSource, int sourceNum) {
     volatile Packet_t *tmp = (volatile Packet_t *)malloc(sizeof(volatile Packet_t));
+
+    tmp->seed = packetSource->counter;
+    tmp->iterations = packetSource->mean;
+    packetSource->counter += 1;
 
     return tmp;
 }
