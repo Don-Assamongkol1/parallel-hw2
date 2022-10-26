@@ -68,4 +68,4 @@ def test_parallel_overhead():
             print("Error!")
     print("results seem good!")
 
-    os.system("rm results/*")
+    # os.system("rm results/*")
