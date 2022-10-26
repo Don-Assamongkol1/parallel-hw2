@@ -16,25 +16,27 @@ queue_t* create_queue() {
 
 int enqueue(queue_t* queue, volatile Packet_t* packet, bool includeSlowDown) {
     if (includeSlowDown) {
-        sleep(3);
+        sleep(SLEEP_DURATION);
     }
 
     if ((queue->tail - queue->head) == queue->depth) {
         return FAILURE;
     }
     queue->packet_array[queue->tail % queue->depth] = packet;
+    __sync_synchronize();  // prevent memory hoisting for correctness
     queue->tail += 1;
     return SUCCESS;
 }
 
 int dequeue(queue_t* queue, volatile Packet_t* packet, bool includeSlowDown) {
     if (includeSlowDown) {
-        sleep(3);
+        sleep(SLEEP_DURATION);
     }
     if ((queue->tail - queue->head) == 0) {
         return FAILURE;
     }
     *packet = *queue->packet_array[queue->head % queue->depth];
+    __sync_synchronize();  // prevent memory hoisting for correctness
     queue->head += 1;
     return SUCCESS;
 }

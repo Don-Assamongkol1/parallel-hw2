@@ -23,6 +23,7 @@ typedef struct _queue {
 } queue_t;
 
 #define DEPTH 32
+#define SLEEP_DURATION 2  // to make queue full/empty for stress testing
 
 /* Return codes for queue operations */
 #define SUCCESS 0

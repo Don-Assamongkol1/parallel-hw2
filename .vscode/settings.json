@@ -2,6 +2,7 @@
     "files.associations": {
         "types.h": "c",
         "stdbool.h": "c",
-        "packetsource.h": "c"
+        "packetsource.h": "c",
+        "unistd.h": "c"
     }
 }
