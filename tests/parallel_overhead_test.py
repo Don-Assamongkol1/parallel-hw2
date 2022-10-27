@@ -25,6 +25,7 @@ def test_parallel_overhead():
 
             trial_num = 0
             for _ in range(constants.UNIFORM_RERUN_COUNT):
+                # print('test')
                 rv_serial = subprocess.run(
                     [
                         constants.SERIAL_EXECUTABLE,

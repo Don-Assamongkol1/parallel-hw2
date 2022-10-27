@@ -26,7 +26,7 @@ if len(os.listdir('results')) > 0:
 # test_parallel_overhead()
 # test_dispatcher_rate()
 # test_uniform_load()
-# test_exponential_load()
-test_constant_load()
+test_exponential_load()
+# test_constant_load()
 
 print("done with test_module script!")

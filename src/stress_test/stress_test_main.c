@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
 
     cmd_line_args_t* args = malloc(sizeof(cmd_line_args_t));  // commonly used variables
     args->n = 2;                                  // number of threads; there are n - 1 workers ; recall argv[0] is ./<executable_name>
-    args->T = 100000;                                  // number of packets from each source—(numPackets in the code)
+    args->T = 1000000;                                  // number of packets from each source—(numPackets in the code)
     args->W = 1;
     args->trial_num = 0;                          // expected amount of work per packet—(mean in the code).
     args->distribution = 'C';                          // distribution type either 'C', 'U', 'E'
