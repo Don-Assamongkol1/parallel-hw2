@@ -1,4 +1,5 @@
 #include "types.h"
+#include <unistd.h>
 
 queue_t* create_queue();  // returns a malloc'd queue
 

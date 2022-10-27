@@ -8,7 +8,8 @@ import constants
 
 def test_parallel_overhead():
     print("\n\n\n\n\n\nrunning Parallel Overhead...")
-    W_options = [200, 400, 800]
+
+    W_options = [200, 400, 800] 
     n_options = [2, 9, 14]
 
     for n in n_options:
@@ -83,7 +84,6 @@ def test_parallel_overhead():
     print("results seem good!")
 
     os.system("rm results/*")
-
 
 """
 Correctness testing explanation

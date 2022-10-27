@@ -26,8 +26,13 @@ void* thr_func(void* input) {
             }
         };
 
+        if (packet->seed != numPacketsProcessed) {
+            printf("error! packets seem to be out of order\n");
+            return (void *) 1;
+        } 
         numPacketsProcessed += 1;
     }
+
 
     pthread_exit(NULL);
 }

@@ -16,10 +16,8 @@ queue_t* create_queue() {
 
 int enqueue(queue_t* queue, volatile Packet_t* packet, bool includeSlowDown) {
     if (includeSlowDown) {
-        sleep(SLEEP_DURATION);
+        usleep(SLEEP_DURATION);
     }
-    __sync_synchronize();  // prevent memory hoisting for correctness
-
     if ((queue->tail - queue->head) == queue->depth) {
         return FAILURE;
     }
@@ -31,9 +29,8 @@ int enqueue(queue_t* queue, volatile Packet_t* packet, bool includeSlowDown) {
 
 int dequeue(queue_t* queue, volatile Packet_t* packet, bool includeSlowDown) {
     if (includeSlowDown) {
-        sleep(SLEEP_DURATION);
+        usleep(SLEEP_DURATION);
     }
-    __sync_synchronize();  // prevent memory hoisting for correctness
     if ((queue->tail - queue->head) == 0) {
         return FAILURE;
     }
