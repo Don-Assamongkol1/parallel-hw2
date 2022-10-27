@@ -2,6 +2,7 @@ CFLAGS = -O3 -Wall -Werror -I src/include -pthread
 SRCS_SERIAL = src/utils/* src/serial/* src/output/*
 SRCS_PARALLEL = src/utils/* src/parallel/* src/output/* src/queue/*
 SRCS_SERIAL_QUEUE = src/utils/* src/serial_queue/* src/output/* src/queue/*
+SRCS_STRESS_TEST = src/utils/* src/stress_test/* src/queue/*
 LM_FLAG = -lm
 
 serial: $(SRCS) ./src/include/* ./src/serial/*
@@ -12,6 +13,9 @@ parallel: $(SRCS) ./src/include/* ./src/parallel/* ./src/queue/*
 
 serial_queue: $(SRCS) ./src/include/* ./src/serial_queue/* ./src/queue/*
 	gcc $(CFLAGS) -o serial_queue $(SRCS_SERIAL_QUEUE) $(LM_FLAG)
+
+stress_test: $(SRCS) ./src/include/* ./src/stress_test/* ./src/queue/*
+	gcc $(CFLAGS) -o stress_test $(SRCS_STRESS_TEST) $(LM_FLAG)
 
 all:
 	make serial parallel serial_queue
