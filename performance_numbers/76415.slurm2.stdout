@@ -1,0 +1,28 @@
+make: 'serial' is up to date.
+make: 'parallel' is up to date.
+make: 'serial_queue' is up to date.
+compiling the code...
+
+
+
+
+
+
+running Dispatcher Rate...
+parallel_times:  [438.69940180000003, 619.5482056000001, 419.91619879999996, 389.55999740000004, 448.39100339999993, 34105.753125]
+ratio:  [2390.192454554653, 1692.4849277620115, 2497.107763397862, 2691.6932102844294, 2338.5304166430565, 30.7448422603921]
+testing correctness...
+results/serial_output_n_14_T_80659_W_1_trial_0_uniform.txt
+results/parallel_output_n_14_T_80659_W_1_trial_0_uniform.txt
+results/serial_output_n_28_T_38836_W_1_trial_0_uniform.txt
+results/parallel_output_n_28_T_38836_W_1_trial_0_uniform.txt
+results/serial_output_n_2_T_1048576_W_1_trial_0_uniform.txt
+results/parallel_output_n_2_T_1048576_W_1_trial_0_uniform.txt
+results/serial_output_n_3_T_524288_W_1_trial_0_uniform.txt
+results/parallel_output_n_3_T_524288_W_1_trial_0_uniform.txt
+results/serial_output_n_5_T_262144_W_1_trial_0_uniform.txt
+results/parallel_output_n_5_T_262144_W_1_trial_0_uniform.txt
+results/serial_output_n_9_T_131072_W_1_trial_0_uniform.txt
+results/parallel_output_n_9_T_131072_W_1_trial_0_uniform.txt
+results seem good!
+done with test_module script!

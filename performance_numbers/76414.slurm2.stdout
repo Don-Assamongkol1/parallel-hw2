@@ -1,0 +1,71 @@
+make: 'serial' is up to date.
+make: 'parallel' is up to date.
+make: 'serial_queue' is up to date.
+compiling the code...
+
+
+
+
+
+
+running Parallel Overhead...
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+for n=2:
+serial_queue_times:  [3.6502000000000003, 3.3606000000000003, 2.4455999999999998]
+serial_times:  [3.2565999999999997, 2.6852, 2.5625999999999998]
+ratio:  [1.12086224897132, 1.251526888127514, 0.954343245141653]
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+for n=9:
+serial_queue_times:  [5.409800000000001, 4.623800000000001, 5.4516]
+serial_times:  [4.4990000000000006, 5.192, 4.0394]
+ratio:  [1.2024449877750611, 0.8905624036979971, 1.3496063771847304]
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+test
+for n=14:
+serial_queue_times:  [6.732600000000001, 5.1064, 5.179600000000001]
+serial_times:  [5.455, 5.161, 5.5984]
+ratio:  [1.2342071494042164, 0.9894206549118388, 0.925192912260646]
+testing correctness...
+results seem good!
+done with test_module script!
